@@ -1,11 +1,20 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link , useNavigate} from 'react-router-dom'
 import { Menu, User } from 'lucide-react'
-const Navbar = ({ token }) => {
+
+const Navbar = ({ token, setToken }) => {
 
 
   const [open, setOpen] = useState(false);
-  console.log(token)
+  const navigate = useNavigate()
+
+
+  const handleLogout = () => {
+    localStorage.removeItem('token') 
+    setToken(null)
+    navigate('/login') 
+    setOpen(false)
+  }
 
 
   return (
@@ -15,41 +24,66 @@ const Navbar = ({ token }) => {
 
               <h1 className='text-black text-2xl font-bold  '>Resume AI</h1>
 
-              {token &&
-        <User className='w-6 h-6  rounded' />
-              }
+
+      {open && (
+
+        <div className='absolute top-15 right-7 w-30  bg-white flex flex-col items-center justify-center rounded-md shadow-md'>
+
+          {token ? (
+            <span onClick={handleLogout}
+            className=' w-full py-2 text-center text-sm  hover:bg-red-300 rounded' >
+              Logout
+            </span>
+          ) : (
+              <> 
+                <span className=' w-full py-2 text-center text-sm hover:bg-[#eae0f5] rounded ' >
+                  <Link to='/login'>Login</Link>
+                </span>
+                <span className=' w-full py-2 text-center text-sm hover:bg-green-200 rounded'>
+                  <Link to='/register'>Sign Up</Link>
+                </span>
+              </>
+          )
+            }
+          
+          
+
+        </div>
+
+      )}
+              
+
               
           <div className='lg:hidden px-2 py-1 rounded bg-[#eae0f5]'>
+
 
             <span onClick={() => setOpen(!open)}>
                   <Menu className='w-6 h-6  rounded' />
             </span>
 
-              {open && (
-
-                  <div className='absolute top-15 right-7 w-30  bg-white flex flex-col items-center justify-center rounded-md shadow-md'>
-                      <span className=' w-full py-2 text-center text-sm hover:bg-[#eae0f5] rounded ' >
-                        <Link to='/login'>Login</Link>
-                        </span>
-                      <span className=' w-full py-2 text-center text-sm hover:bg-green-200 rounded'>
-                        <Link to='/register'>Sign Up</Link>
-                        </span>
-                  </div>
-
-              )}
-
               </div>
 
               <div className=' hidden  lg:flex justify-center items-center gap-3  '>
+                {token ?(
+            <User className='w-7 h-7  rounded-3xl border-2 ' onClick={() => setOpen(!open)} />
+            
+                ) :(
+                  <>
                   <span className='bg-[#eae0f5] px-3 py-1.5 shadow-lg rounded-lg
                   hover: trasition duration-300 ease-in-out hover:bg-green-300'>
-                    <Link to='/login'>Login</Link>
-                  </span>
+          <Link to='/login'>Login</Link>
+        </span>
 
-                  <span className='bg-green-200 px-3 py-1.5 shadow-lg rounded-lg
-                  hover: trasition duration-300 ease-in-out hover:bg-green-300'> 
-                    <Link to='/register'>sign Up</Link>
-                  </span>
+        <span className='bg-green-200 px-3 py-1.5 shadow-lg rounded-lg
+                  hover: trasition duration-300 ease-in-out hover:bg-green-300'>
+          <Link to='/register'>sign Up</Link>
+        </span> 
+            </>
+                )
+                  
+             }
+         
+                  
               </div>
           </div>
       

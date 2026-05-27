@@ -1,30 +1,39 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import { Link , Navigate } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import "@fontsource/poppins"
 import "@fontsource/montserrat/700.css"
 import after from '../assets/after.webp'
 import before from '../assets/pile-before.webp'
-import JobsPage from './JobPage'
-const Dashboard = () => {
+import JobsPage from './JobsPage'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-  const token = localStorage.getItem("token")
+const Dashboard = ({ token, setToken } ) => {
 
+  const navigate = useNavigate()
 
+  useEffect(() => {
 
-  
+    if (!token) {
+      navigate('/')
+    }
+
+  }, [token])
+
   return (
     <div className=' min-h-screen w-full bg-gradient-to-br from-white to-[#eae0f5]'>
-          {/* navbar */}
-          <Navbar token={token}/>
-          {token &&
-          <JobsPage />}
+      {/* navbar */}
+      <Navbar token={token}
+        setToken={setToken} />
+      {token &&
+        <JobsPage />}
 
 
 
-          {/* main */}
+      {/* main */}
 
-          {!token &&
+      {!token &&
         <main className=' font-[Montserrat] flex flex-col justify-center items-center overflow-x-hidden py-24 px-4 '>
 
           <div className=' text-center  px-4 max-w-4xl'>
@@ -64,10 +73,10 @@ const Dashboard = () => {
           </div>
 
         </main>
-          }
+      }
 
-      
-     
+
+
     </div>
   )
 }

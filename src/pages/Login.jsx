@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLoginMutation } from "../features/auth/authApi";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login= () => {
+const Login= ({setToken}) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,11 +19,9 @@ const Login= () => {
                 password: password
             }).unwrap();
 
-            console.log("Login Success:", response);
-             navigate('/')
-
-            // store token if needed
-            localStorage.setItem( 'token', response.access_token);
+            localStorage.setItem('token', response.access_token)
+            setToken(response.access_token)
+            navigate('/')
 
         } catch (error) {
             console.error("Login Failed:", error);
