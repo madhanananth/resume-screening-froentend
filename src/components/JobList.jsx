@@ -1,4 +1,4 @@
-import JobCard from "./jobCard";
+import JobCard from "./components/jobCard";
 
 const JobList =({ jobs }) => {
     return (

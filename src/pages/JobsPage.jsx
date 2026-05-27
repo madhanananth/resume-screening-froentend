@@ -1,4 +1,4 @@
-import JobList from "../components/jobList";
+import JobList from "../components/JobList";
 import CreateJobButton from "../components/CreateJobButton";
 import { useGetJobsQuery } from "../features/job/jobsApi";
 import CreateJobModal from "../components/CreateJobModel";
